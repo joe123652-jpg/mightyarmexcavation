@@ -1,0 +1,589 @@
+/**
+ * Mighty Arm Excavation - Modern Enhancements
+ * Ultra-optimized for mobile with smooth, hardware-accelerated animations
+ * Author: Claude
+ * Last Updated: 2025-11-20
+ */
+
+/* ========================================
+   ROOT VARIABLES & SMOOTH SCROLLING
+   ======================================== */
+:root {
+  --animation-duration: 0.6s;
+  --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --transition-fast: 0.2s;
+  --transition-medium: 0.4s;
+  --transition-slow: 0.6s;
+  scroll-behavior: smooth;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================
+   HARDWARE ACCELERATION & PERFORMANCE
+   ======================================== */
+
+/* Force GPU acceleration for animated elements */
+.animate-on-scroll,
+.fade-in,
+.slide-up,
+.slide-in-left,
+.slide-in-right,
+.scale-in,
+[data-animate],
+img,
+button,
+a {
+  will-change: auto;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   SMOOTH SCROLL ANIMATIONS
+   ======================================== */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn var(--animation-duration) var(--animation-easing) both;
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(60px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp var(--animation-duration) var(--animation-easing) both;
+}
+
+/* Slide In Left Animation */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateZ(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft var(--animation-duration) var(--animation-easing) both;
+}
+
+/* Slide In Right Animation */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateZ(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight var(--animation-duration) var(--animation-easing) both;
+}
+
+/* Scale In Animation */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+  }
+}
+
+.scale-in {
+  animation: scaleIn var(--animation-duration) var(--animation-easing-bounce) both;
+}
+
+/* Stagger animation delays for sequential elements */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* ========================================
+   MODERN BUTTON & LINK HOVER EFFECTS
+   ======================================== */
+
+a,
+button {
+  transition: all var(--transition-medium) var(--animation-easing);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Smooth hover lift effect */
+a:hover,
+button:hover {
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+a:active,
+button:active {
+  transform: translateY(0) translateZ(0);
+  transition-duration: var(--transition-fast);
+}
+
+/* Ripple effect for buttons */
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+button:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+/* ========================================
+   IMAGE OPTIMIZATIONS
+   ======================================== */
+
+/* Lazy loading placeholder */
+img {
+  transition: opacity var(--transition-medium) var(--animation-easing),
+              transform var(--transition-slow) var(--animation-easing);
+}
+
+img:not([src]) {
+  opacity: 0;
+}
+
+img[loading="lazy"] {
+  opacity: 0;
+}
+
+img.loaded {
+  opacity: 1;
+  animation: fadeIn var(--animation-duration) var(--animation-easing);
+}
+
+/* Subtle parallax effect for hero images */
+.parallax-image {
+  transition: transform 0.3s ease-out;
+}
+
+/* Hover zoom effect for project images */
+.project-image,
+.gallery-image {
+  transition: transform var(--transition-slow) var(--animation-easing);
+  overflow: hidden;
+}
+
+.project-image:hover,
+.gallery-image:hover {
+  transform: scale(1.05) translateZ(0);
+}
+
+/* ========================================
+   MOBILE-FIRST OPTIMIZATIONS
+   ======================================== */
+
+/* Enhanced touch targets for mobile (minimum 48x48px) */
+@media (max-width: 768px) {
+  a,
+  button,
+  input,
+  select {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px;
+  }
+
+  /* Optimize font sizes for mobile readability */
+  body {
+    font-size: 16px; /* Prevents zoom on focus in iOS */
+    line-height: 1.6;
+  }
+
+  /* Smooth momentum scrolling on iOS */
+  body,
+  .scroll-container {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent text selection during swipe gestures */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    -webkit-touch-callout: none;
+  }
+
+  /* Optimize animations for mobile performance */
+  .animate-on-scroll {
+    animation-duration: 0.4s; /* Faster on mobile */
+  }
+}
+
+/* ========================================
+   SCROLL-BASED REVEAL ANIMATIONS
+   ======================================== */
+
+/* Elements hidden before scroll reveal */
+[data-scroll-reveal] {
+  opacity: 0;
+  transform: translateY(40px) translateZ(0);
+  transition: opacity var(--animation-duration) var(--animation-easing),
+              transform var(--animation-duration) var(--animation-easing);
+}
+
+/* Revealed state */
+[data-scroll-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+/* Different reveal animations */
+[data-scroll-reveal="fade"] {
+  transform: none;
+}
+
+[data-scroll-reveal="fade"].revealed {
+  opacity: 1;
+}
+
+[data-scroll-reveal="slide-left"] {
+  transform: translateX(-40px) translateZ(0);
+}
+
+[data-scroll-reveal="slide-left"].revealed {
+  transform: translateX(0) translateZ(0);
+}
+
+[data-scroll-reveal="slide-right"] {
+  transform: translateX(40px) translateZ(0);
+}
+
+[data-scroll-reveal="slide-right"].revealed {
+  transform: translateX(0) translateZ(0);
+}
+
+[data-scroll-reveal="scale"] {
+  transform: scale(0.9) translateZ(0);
+}
+
+[data-scroll-reveal="scale"].revealed {
+  transform: scale(1) translateZ(0);
+}
+
+/* ========================================
+   LOADING STATES & SKELETON SCREENS
+   ======================================== */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #e0e0e0 50%,
+    #f0f0f0 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* ========================================
+   SMOOTH SECTION TRANSITIONS
+   ======================================== */
+
+section {
+  transition: opacity var(--transition-slow) var(--animation-easing);
+}
+
+/* Fade in sections as they come into view */
+.section-fade {
+  opacity: 0;
+  transition: opacity var(--animation-duration) var(--animation-easing);
+}
+
+.section-fade.in-view {
+  opacity: 1;
+}
+
+/* ========================================
+   MICRO-INTERACTIONS
+   ======================================== */
+
+/* Pulsing call-to-action */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+  }
+  50% {
+    transform: scale(1.05) translateZ(0);
+  }
+}
+
+.pulse-on-hover:hover {
+  animation: pulse 1s infinite;
+}
+
+/* Subtle bounce for important elements */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0) translateZ(0);
+  }
+  40% {
+    transform: translateY(-10px) translateZ(0);
+  }
+  60% {
+    transform: translateY(-5px) translateZ(0);
+  }
+}
+
+.bounce-once {
+  animation: bounce 1s;
+}
+
+/* ========================================
+   NAVIGATION ENHANCEMENTS
+   ======================================== */
+
+/* Smooth scroll progress indicator */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* Sticky header with smooth transition */
+header.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(0) translateZ(0);
+  transition: all var(--transition-medium) var(--animation-easing);
+  z-index: 1000;
+}
+
+header.sticky.hide {
+  transform: translateY(-100%) translateZ(0);
+}
+
+/* ========================================
+   FORM ENHANCEMENTS
+   ======================================== */
+
+input,
+textarea,
+select {
+  transition: all var(--transition-medium) var(--animation-easing);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  transform: scale(1.02) translateZ(0);
+  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.3);
+}
+
+/* ========================================
+   MODERN CARD EFFECTS
+   ======================================== */
+
+.card,
+.service-card,
+.project-card {
+  transition: all var(--transition-medium) var(--animation-easing);
+  position: relative;
+}
+
+.card:hover,
+.service-card:hover,
+.project-card:hover {
+  transform: translateY(-8px) translateZ(0);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ======================================== */
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 3px solid #4ecdc4;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Skip to main content link */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10000;
+  padding: 12px 24px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+}
+
+.skip-to-main:focus {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+/* Containment for better rendering performance */
+.card,
+.project-card,
+.service-card,
+section {
+  contain: layout style paint;
+}
+
+/* ========================================
+   DARK MODE SUPPORT (Optional)
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      #2a2a2a 0%,
+      #3a3a3a 50%,
+      #2a2a2a 100%
+    );
+  }
+
+  :focus-visible {
+    outline-color: #64dfdf;
+  }
+}
+
+/* ========================================
+   PRINT OPTIMIZATIONS
+   ======================================== */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .scroll-progress,
+  header.sticky {
+    position: static;
+  }
+}
+
+/* ========================================
+   HIGH REFRESH RATE DISPLAY OPTIMIZATION
+   ======================================== */
+
+@media (min-resolution: 120dpi) {
+  :root {
+    --animation-duration: 0.5s;
+    --transition-fast: 0.15s;
+  }
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root {
+    --animation-duration: 0.5s;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  /* Enable more complex animations on desktop */
+  .parallax-enabled {
+    transform-style: preserve-3d;
+  }
+
+  /* Smooth parallax scrolling */
+  .parallax-layer {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  :root {
+    --animation-duration: 0.7s;
+  }
+}
